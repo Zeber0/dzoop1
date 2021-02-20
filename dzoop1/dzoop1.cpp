@@ -22,6 +22,11 @@ public:
     {
         v.push_back(b);
     }
+    void clear() {
+        for (int i = 0; i < v.size(); i++) {
+            delete v[i];
+        }
+    }
     std::string print_str(int i)
     {
         return v[i]->out();
@@ -162,23 +167,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
         {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
-            DB db;
-            db.fill(new Kladovshikov);
-            db.fill(new Kladovshikov);
-            db.fill(new Kladovshikov);
-            db.fill(new Dmitry);
-            db.fill(new Dmitry);
-            db.fill(new Dmitry);
-            for (int i = 0; i < 6; i++)
             {
-                std::string str_w = db.print_str(i);
-                TextOutA(hdc, 10, i * 20, str_w.c_str(), str_w.size());
+                PAINTSTRUCT ps;
+                HDC hdc = BeginPaint(hWnd, &ps);
+                // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
+                DB db;
+                db.fill(new Kladovshikov);
+                db.fill(new Kladovshikov);
+                db.fill(new Kladovshikov);
+                db.fill(new Dmitry);
+                db.fill(new Dmitry);
+                db.fill(new Dmitry);
+                for (int i = 0; i < 6; i++)
+                {
+                    std::string str_w = db.print_str(i);
+                    TextOutA(hdc, 10, i * 20, str_w.c_str(), str_w.size());
+                }
+                db.clear();
+                EndPaint(hWnd, &ps);
             }
-            EndPaint(hWnd, &ps);
-
+            _CrtDumpMemoryLeaks();
 
         }
         break;
