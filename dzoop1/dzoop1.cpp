@@ -22,16 +22,15 @@ public:
     {
         v.push_back(b);
     }
-    void clear() {
-        for (int i = 0; i < v.size(); i++) {
-            delete v[i];
-        }
-    }
     std::string print_str(int i)
     {
         return v[i]->out();
     }
-    ~DB() { }
+    ~DB() {
+        for (int i = 0; i < v.size(); i++) {
+            delete v[i];
+        }
+    }
 };
 
 // Отправить объявления функций, включенных в этот модуль кода:
@@ -181,9 +180,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 for (int i = 0; i < 6; i++)
                 {
                     std::string str_w = db.print_str(i);
-                    TextOutA(hdc, 10, i * 20, str_w.c_str(), str_w.size());
+                    std::wstring str_temp = std::wstring(str_w.begin(), str_w.end());
+                    //TextOutA(hdc, 10, i * 20, str_w.c_str(), str_w.size());
+                    TextOut(hdc, 10, i * 20, str_temp.c_str(), str_temp.size());
                 }
-                db.clear();
                 EndPaint(hWnd, &ps);
             }
             _CrtDumpMemoryLeaks();
